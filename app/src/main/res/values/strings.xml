@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">ToDoLister</string>
+
+    <!-- Tab names -->
+    <string name="tab_shop">zakupy</string>
+    <string name="tab_meeting">spotkania</string>
+    <string name="tab_reminders">terminy</string>
+
+
+    <string name="one">One</string>
+    <string name="two">Two</string>
+    <string name="three">Three</string>
+
+</resources>
