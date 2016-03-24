@@ -7,8 +7,11 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 
-public class MeetingListFragment extends Fragment{
+
+public class MeetingListFragment extends MyFragment{
 
     private ListView listView;
     ArrayAdapter<String> adapter;
@@ -32,8 +35,10 @@ public class MeetingListFragment extends Fragment{
         String[] dummyData= new String[] { "Spotkanie z Damianem", "Spotkanie z Kasią", "Spotkanie z Marcinem",
                  };
 
+        ArrayList<String> dummyDataList = new ArrayList<>(Arrays.asList(dummyData));
+
         adapter = new ArrayAdapter<>(getContext(),
-                R.layout.row_layout, R.id.label, dummyData);
+                R.layout.row_layout, R.id.label, dummyDataList);
 
         listView.setAdapter(adapter);
 

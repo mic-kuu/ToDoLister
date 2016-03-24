@@ -11,11 +11,11 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.List;
 
-//TODO: Fix getting access to fragments
 
 
 public class MainActivity extends AppCompatActivity {
@@ -34,6 +34,11 @@ public class MainActivity extends AppCompatActivity {
             R.drawable.ic_action_social_group,
             R.drawable.ic_action_social_notifications
     };
+
+    private String shoppingListTag;
+    private String meetingListTag;
+    private String reminderListTag;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,14 +66,14 @@ public class MainActivity extends AppCompatActivity {
                 int position = tabLayout.getSelectedTabPosition();
 
                 switch (position) {
+                    case 0:
+                        addToList(shoppingListTag);
+                        break;
                     case 1:
-                        addToShoppingList();
+                        addToList(meetingListTag);
                         break;
                     case 2:
-                        addToMeetingList();
-                        break;
-                    case 3:
-                        addToReminderList();
+                        addToList(reminderListTag);
                         break;
 
                 }
@@ -78,43 +83,12 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void addToReminderList(){
-//        fragmentManager = getSupportFragmentManager();
-//        reminderListFragment = (ReminderListFragment) fragmentManager.findFragmentById(R.id.fragment_reminder_list);
-//
-//
-//        if (reminderListFragment != null) {
-//
-//            reminderListFragment.addItem();
-//
-//        }
-
+    private void addToList(String tag){
+        fragmentManager = getSupportFragmentManager();
+        MyFragment fragment = (MyFragment) fragmentManager.findFragmentByTag(tag);
+        fragment.addItem();
     }
 
-    private void addToMeetingList() {
-//        fragmentManager = getSupportFragmentManager();
-//        meetingListFragment = (MeetingListFragment) fragmentManager.findFragmentById(R.id.fragment_meeting_list);
-//        if (meetingListFragment != null) {
-//
-//            meetingListFragment.addItem();
-//
-//        }
-
-
-
-    }
-
-    private void addToShoppingList() {
-//        fragmentManager = getSupportFragmentManager();
-//        shoppingListFragment = (ShoppingListFragment) fragmentManager.findFragmentById(R.id.fragment_shopping_list);
-//
-//        if (shoppingListFragment != null) {
-//
-//            shoppingListFragment.addItem();
-//
-//        }
-
-    }
 
     private void setupTabIcons() {
         tabLayout.getTabAt(0).setIcon(tabIcons[0]);
@@ -140,7 +114,37 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int position) {
-            return mFragmentList.get(position);
+
+            switch (position) {
+                case 0:
+                    return new ShoppingListFragment();
+                case 1:
+                    return new MeetingListFragment();
+                case 2:
+                    return new ReminderListFragment();
+                default:
+                    return null;
+            }
+
+        }
+
+        @Override
+        public Object instantiateItem(ViewGroup container, int position) {
+            Fragment createdFragment = (Fragment) super.instantiateItem(container, position);
+            // get the tags set by FragmentPagerAdapter
+            switch (position) {
+                case 0:
+                    shoppingListTag = createdFragment.getTag();
+                    break;
+                case 1:
+                    meetingListTag = createdFragment.getTag();
+                    break;
+                case 2:
+                    reminderListTag =createdFragment.getTag();
+                    break;
+
+            }
+            return createdFragment;
         }
 
         @Override

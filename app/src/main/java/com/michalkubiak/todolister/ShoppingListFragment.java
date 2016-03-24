@@ -7,8 +7,11 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 
-public class ShoppingListFragment extends Fragment{
+
+public class ShoppingListFragment extends MyFragment{
 
     private ListView listView;
     ArrayAdapter<String> adapter;
@@ -34,8 +37,10 @@ public class ShoppingListFragment extends Fragment{
                 "Jajka", "Pieczeń", "Pomidor", "Ogórek", "Makaron",
                 "Dżem", "Herbata" };
 
+        ArrayList<String> dummyDataList = new ArrayList<>(Arrays.asList(dummyData));
+
         adapter = new ArrayAdapter<>(getContext(),
-                R.layout.row_layout, R.id.label, dummyData);
+                R.layout.row_layout, R.id.label, dummyDataList);
 
         listView.setAdapter(adapter);
 

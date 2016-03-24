@@ -7,8 +7,11 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 
-public class ReminderListFragment extends Fragment{
+
+public class ReminderListFragment extends MyFragment{
 
     private ListView listView;
     ArrayAdapter<String> adapter;
@@ -31,9 +34,12 @@ public class ReminderListFragment extends Fragment{
 
         String[] dummyData= new String[] { "Odwiedź babcię", "Zrób pranie", "Wyślij maila do Anety",
                 "Przeczytaj 'Wojnę i Pokój'", "Zapłać ratę kredytu" };
-        // use your custom layout
+
+        ArrayList<String> dummyDataList = new ArrayList<>(Arrays.asList(dummyData));
+
+
         adapter = new ArrayAdapter<>(getContext(),
-                R.layout.row_layout, R.id.label, dummyData);
+                R.layout.row_layout, R.id.label, dummyDataList);
 
         listView.setAdapter(adapter);
 
