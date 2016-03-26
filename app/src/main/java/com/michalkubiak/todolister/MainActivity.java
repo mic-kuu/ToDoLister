@@ -16,17 +16,12 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
 public class MainActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private FloatingActionButton fab;
-    private MeetingListFragment meetingListFragment;
-    private ReminderListFragment reminderListFragment;
-    private ShoppingListFragment shoppingListFragment;
     private FragmentManager fragmentManager;
 
     private int[] tabIcons = {
@@ -101,10 +96,12 @@ public class MainActivity extends AppCompatActivity {
         adapter.addFragment(new ShoppingListFragment(), null);
         adapter.addFragment(new MeetingListFragment(), null);
         adapter.addFragment(new ReminderListFragment(), null);
+        viewPager.setOffscreenPageLimit(2);
         viewPager.setAdapter(adapter);
     }
 
     class ViewPagerAdapter extends FragmentPagerAdapter {
+
         private final List<Fragment> mFragmentList = new ArrayList<>();
         private final List<String> mFragmentTitleList = new ArrayList<>();
 
