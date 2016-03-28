@@ -1,6 +1,5 @@
 package com.michalkubiak.todolister;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
@@ -40,9 +39,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        setupLayoutSkeleton();
+        setupTabIcons();
+        setupFab();
+
+    }
+
+    private void setupLayoutSkeleton() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
@@ -51,8 +56,9 @@ public class MainActivity extends AppCompatActivity {
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
 
-        setupTabIcons();
+    }
 
+    private void setupFab() {
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
 
@@ -70,12 +76,12 @@ public class MainActivity extends AppCompatActivity {
                     case 2:
                         addToList(reminderListTag);
                         break;
-
                 }
 
             }
 
         });
+
     }
 
     private void addToList(String tag){
@@ -93,9 +99,11 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+
         adapter.addFragment(new ShoppingListFragment(), null);
         adapter.addFragment(new MeetingListFragment(), null);
         adapter.addFragment(new ReminderListFragment(), null);
+
         viewPager.setOffscreenPageLimit(2);
         viewPager.setAdapter(adapter);
     }
@@ -128,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
             Fragment createdFragment = (Fragment) super.instantiateItem(container, position);
-            // get the tags set by FragmentPagerAdapter
+
             switch (position) {
                 case 0:
                     shoppingListTag = createdFragment.getTag();
