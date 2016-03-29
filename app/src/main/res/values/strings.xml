@@ -6,9 +6,9 @@
     <string name="tab_meeting">spotkania</string>
     <string name="tab_reminders">terminy</string>
 
+    <string name="dialog_additemtitle">Dodaj element</string>
 
-    <string name="one">One</string>
-    <string name="two">Two</string>
-    <string name="three">Three</string>
+    <string name="all_ok">OK</string>
+    <string name="all_cancel">Anuluj</string>
 
 </resources>

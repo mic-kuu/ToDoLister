@@ -14,7 +14,7 @@ import java.util.Arrays;
 public class ReminderListFragment extends MyFragment{
 
     private ListView listView;
-    ArrayAdapter<String> adapter;
+    private ArrayAdapter<String> adapter;
 
     public ReminderListFragment() {
         // Required empty public constructor
@@ -46,9 +46,11 @@ public class ReminderListFragment extends MyFragment{
         return rootView;
     }
 
-    public void addItem(){
-        adapter.add("Nowe przypomnienie");
+    public void addItem(String itemText){
+        adapter.add(itemText);
         adapter.notifyDataSetChanged();
     }
+
+
 
 }

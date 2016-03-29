@@ -1,5 +1,7 @@
 package com.michalkubiak.todolister;
 
+
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
@@ -9,8 +11,10 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,15 +27,15 @@ public class MainActivity extends AppCompatActivity {
     private FloatingActionButton fab;
     private FragmentManager fragmentManager;
 
+    //TODO: make callbacks to delete this field
+    private String itemText;
+    private ArrayList<String> tabTags = new ArrayList<>();
+
     private int[] tabIcons = {
             R.drawable.ic_action_action_shopping_cart,
             R.drawable.ic_action_social_group,
             R.drawable.ic_action_social_notifications
     };
-
-    private String shoppingListTag;
-    private String meetingListTag;
-    private String reminderListTag;
 
 
     @Override
@@ -47,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupLayoutSkeleton() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -55,7 +60,6 @@ public class MainActivity extends AppCompatActivity {
 
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
-
     }
 
     private void setupFab() {
@@ -64,32 +68,47 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                int position = tabLayout.getSelectedTabPosition();
 
-                switch (position) {
-                    case 0:
-                        addToList(shoppingListTag);
-                        break;
-                    case 1:
-                        addToList(meetingListTag);
-                        break;
-                    case 2:
-                        addToList(reminderListTag);
-                        break;
-                }
+                showInputDialog();
+
 
             }
 
         });
-
     }
 
-    private void addToList(String tag){
+    private void addToList(String tag) {
+
         fragmentManager = getSupportFragmentManager();
         MyFragment fragment = (MyFragment) fragmentManager.findFragmentByTag(tag);
-        fragment.addItem();
+        fragment.addItem(itemText);
     }
 
+    private void showInputDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this, R.style.MyAlertDialogStyle);
+        builder.setTitle(R.string.dialog_additemtitle);
+        final EditText input = new EditText(MainActivity.this);
+
+        builder.setView(input);
+
+        // Set up the buttons
+        builder.setPositiveButton(getString(R.string.all_ok), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                int position = tabLayout.getSelectedTabPosition();
+                itemText = input.getText().toString();
+                if (itemText != null) addToList(tabTags.get(position));
+            }
+        });
+        builder.setNegativeButton(getString(R.string.all_cancel), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
+    }
 
     private void setupTabIcons() {
         tabLayout.getTabAt(0).setIcon(tabIcons[0]);
@@ -137,18 +156,8 @@ public class MainActivity extends AppCompatActivity {
         public Object instantiateItem(ViewGroup container, int position) {
             Fragment createdFragment = (Fragment) super.instantiateItem(container, position);
 
-            switch (position) {
-                case 0:
-                    shoppingListTag = createdFragment.getTag();
-                    break;
-                case 1:
-                    meetingListTag = createdFragment.getTag();
-                    break;
-                case 2:
-                    reminderListTag =createdFragment.getTag();
-                    break;
+            tabTags.add(position, createdFragment.getTag());
 
-            }
             return createdFragment;
         }
 

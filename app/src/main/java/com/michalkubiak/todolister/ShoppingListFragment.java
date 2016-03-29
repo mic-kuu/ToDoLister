@@ -34,8 +34,7 @@ public class ShoppingListFragment extends MyFragment{
         listView = (ListView) rootView.findViewById(R.id.listview_shopping);
 
         String[] dummyData= new String[] { "Mleko", "Płatki", "Pieczywo",
-                "Jajka", "Pieczeń", "Pomidor", "Ogórek", "Makaron",
-                "Dżem", "Herbata" };
+                "Jajka", "Pieczeń", "Pomidor", "Ogórek", "Makaron"};
 
         ArrayList<String> dummyDataList = new ArrayList<>(Arrays.asList(dummyData));
 
@@ -47,8 +46,8 @@ public class ShoppingListFragment extends MyFragment{
         return rootView;
     }
 
-    public void addItem(){
-        adapter.add("Nowa rzecz do kupienia");
+    public void addItem(String itemText){
+        adapter.add(itemText);
         adapter.notifyDataSetChanged();
     }
 

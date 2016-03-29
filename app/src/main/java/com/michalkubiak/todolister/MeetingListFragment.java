@@ -54,8 +54,8 @@ public class MeetingListFragment extends MyFragment{
         return rootView;
     }
 
-    public void addItem(){
-        adapter.add("Nowe spotkanie");
+    public void addItem(String itemText){
+        adapter.add(itemText);
         adapter.notifyDataSetChanged();
     }
 }
