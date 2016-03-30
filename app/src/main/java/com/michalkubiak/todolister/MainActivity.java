@@ -69,8 +69,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 showInputDialog();
-
-
             }
 
         });
@@ -96,7 +94,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 int position = tabLayout.getSelectedTabPosition();
                 itemText = input.getText().toString();
-                if (itemText != null) addToList(tabTags.get(position));
+
+                if (itemText != null && !itemText.isEmpty()) addToList(tabTags.get(position));
             }
         });
         builder.setNegativeButton(getString(R.string.all_cancel), new DialogInterface.OnClickListener() {
@@ -108,6 +107,8 @@ public class MainActivity extends AppCompatActivity {
 
         builder.show();
     }
+
+
 
     private void setupTabIcons() {
         tabLayout.getTabAt(0).setIcon(tabIcons[0]);

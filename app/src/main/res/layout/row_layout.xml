@@ -7,15 +7,15 @@
     <CheckBox
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/checkBox"
+        android:id="@+id/rowCheckBox"
         android:checked="false"
         android:focusable="false"/>
 
     <TextView
-        android:id="@+id/label"
+        android:id="@+id/rowTextItem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@+id/label"
+        android:text="@+id/rowTextItem"
         android:textSize="18sp"
         android:textIsSelectable="false"
         android:paddingTop="10dp"

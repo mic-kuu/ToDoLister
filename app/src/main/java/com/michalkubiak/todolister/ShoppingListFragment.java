@@ -14,7 +14,8 @@ import java.util.Arrays;
 public class ShoppingListFragment extends MyFragment{
 
     private ListView listView;
-    ArrayAdapter<String> adapter;
+    private MainArrayAdapter adapter;
+    private ArrayList<String> dummyDataList;
 
     public ShoppingListFragment() {
         // Required empty public constructor
@@ -36,19 +37,22 @@ public class ShoppingListFragment extends MyFragment{
         String[] dummyData= new String[] { "Mleko", "Płatki", "Pieczywo",
                 "Jajka", "Pieczeń", "Pomidor", "Ogórek", "Makaron"};
 
-        ArrayList<String> dummyDataList = new ArrayList<>(Arrays.asList(dummyData));
+        dummyDataList = new ArrayList<>(Arrays.asList(dummyData));
 
-        adapter = new ArrayAdapter<>(getContext(),
-                R.layout.row_layout, R.id.label, dummyDataList);
-
+        adapter = new MainArrayAdapter(dummyDataList, getContext());
         listView.setAdapter(adapter);
+
+
+
 
         return rootView;
     }
 
     public void addItem(String itemText){
-        adapter.add(itemText);
+
+        dummyDataList.add(itemText);
         adapter.notifyDataSetChanged();
+
     }
 
 }

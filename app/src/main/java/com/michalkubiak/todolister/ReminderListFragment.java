@@ -1,6 +1,5 @@
 package com.michalkubiak.todolister;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,7 +38,7 @@ public class ReminderListFragment extends MyFragment{
 
 
         adapter = new ArrayAdapter<>(getContext(),
-                R.layout.row_layout, R.id.label, dummyDataList);
+                R.layout.row_layout, R.id.rowTextItem, dummyDataList);
 
         listView.setAdapter(adapter);
 
