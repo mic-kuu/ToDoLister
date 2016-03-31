@@ -14,6 +14,7 @@ public class ReminderListFragment extends MyFragment{
 
     private ListView listView;
     private ArrayAdapter<String> adapter;
+    private ArrayList<String> dummyDataList;
 
     public ReminderListFragment() {
         // Required empty public constructor
@@ -31,10 +32,10 @@ public class ReminderListFragment extends MyFragment{
                 false);
         listView = (ListView) rootView.findViewById(R.id.listview_reminder);
 
-        String[] dummyData= new String[] { "Odwiedź babcię", "Zrób pranie", "Wyślij maila do Anety",
+        String[] dummyData = new String[] { "Odwiedź babcię", "Zrób pranie", "Wyślij maila do Anety",
                 "Przeczytaj 'Wojnę i Pokój'", "Zapłać ratę kredytu" };
 
-        ArrayList<String> dummyDataList = new ArrayList<>(Arrays.asList(dummyData));
+        dummyDataList = new ArrayList<>(Arrays.asList(dummyData));
 
 
         adapter = new ArrayAdapter<>(getContext(),
@@ -46,7 +47,7 @@ public class ReminderListFragment extends MyFragment{
     }
 
     public void addItem(String itemText){
-        adapter.add(itemText);
+        dummyDataList.add(itemText);
         adapter.notifyDataSetChanged();
     }
 

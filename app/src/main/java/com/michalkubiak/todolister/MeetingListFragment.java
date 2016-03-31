@@ -14,6 +14,7 @@ public class MeetingListFragment extends MyFragment{
 
     private ListView listView;
     ArrayAdapter<String> adapter;
+    ArrayList<String> dummyDataList;
 
     public MeetingListFragment() {
         // Required empty public constructor
@@ -31,10 +32,10 @@ public class MeetingListFragment extends MyFragment{
                 false);
         listView = (ListView) rootView.findViewById(R.id.listview_meeting);
 
-        String[] dummyData= new String[] { "Spotkanie z Damianem", "Spotkanie z Kasią", "Spotkanie z Marcinem",
+        String[] dummyData = new String[] { "Spotkanie z Damianem", "Spotkanie z Kasią", "Spotkanie z Marcinem",
                  };
 
-        ArrayList<String> dummyDataList = new ArrayList<>(Arrays.asList(dummyData));
+       dummyDataList = new ArrayList<>(Arrays.asList(dummyData));
 
         adapter = new ArrayAdapter<>(getContext(),
                 R.layout.row_layout, R.id.rowTextItem, dummyDataList);
@@ -44,7 +45,7 @@ public class MeetingListFragment extends MyFragment{
     }
 
     public void addItem(String itemText){
-        adapter.add(itemText);
+        dummyDataList.add(itemText);
         adapter.notifyDataSetChanged();
     }
 }
