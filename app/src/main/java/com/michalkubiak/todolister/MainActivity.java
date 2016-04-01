@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
                 int position = tabLayout.getSelectedTabPosition();
                 itemText = input.getText().toString();
 
-                if (itemText != null && !itemText.isEmpty()) addToList(tabTags.get(position));
+                if (itemText != null) addToList(tabTags.get(position));
             }
         });
         builder.setNegativeButton(getString(R.string.all_cancel), new DialogInterface.OnClickListener() {
@@ -107,8 +107,6 @@ public class MainActivity extends AppCompatActivity {
 
         builder.show();
     }
-
-
 
     private void setupTabIcons() {
         tabLayout.getTabAt(0).setIcon(tabIcons[0]);
