@@ -13,7 +13,7 @@ import java.util.Arrays;
 public class ReminderListFragment extends MyFragment{
 
     private ListView listView;
-    private ArrayAdapter<String> adapter;
+    private MainArrayAdapter adapter;
     private ArrayList<String> dummyDataList;
 
     public ReminderListFragment() {
@@ -36,11 +36,7 @@ public class ReminderListFragment extends MyFragment{
                 "Przeczytaj 'Wojnę i Pokój'", "Zapłać ratę kredytu" };
 
         dummyDataList = new ArrayList<>(Arrays.asList(dummyData));
-
-
-        adapter = new ArrayAdapter<>(getContext(),
-                R.layout.row_layout, R.id.rowTextItem, dummyDataList);
-
+        adapter = new MainArrayAdapter(dummyDataList, getContext());
         listView.setAdapter(adapter);
 
         return rootView;

@@ -13,8 +13,8 @@ import java.util.Arrays;
 public class MeetingListFragment extends MyFragment{
 
     private ListView listView;
-    ArrayAdapter<String> adapter;
-    ArrayList<String> dummyDataList;
+    private MainArrayAdapter adapter;
+    private ArrayList<String> dummyDataList;
 
     public MeetingListFragment() {
         // Required empty public constructor
@@ -36,12 +36,11 @@ public class MeetingListFragment extends MyFragment{
                  };
 
        dummyDataList = new ArrayList<>(Arrays.asList(dummyData));
+       adapter = new MainArrayAdapter(dummyDataList, getContext());
 
-        adapter = new ArrayAdapter<>(getContext(),
-                R.layout.row_layout, R.id.rowTextItem, dummyDataList);
+       listView.setAdapter(adapter);
 
-
-        return rootView;
+       return rootView;
     }
 
     public void addItem(String itemText){

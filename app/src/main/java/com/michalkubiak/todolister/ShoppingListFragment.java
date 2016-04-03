@@ -45,6 +45,7 @@ public class ShoppingListFragment extends MyFragment{
 
 
 
+
         return rootView;
     }
 
