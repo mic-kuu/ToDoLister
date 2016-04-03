@@ -28,19 +28,18 @@ public class MeetingListFragment extends MyFragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         View rootView = inflater.inflate(R.layout.fragment_meeting_list, container,
                 false);
+
         listView = (ListView) rootView.findViewById(R.id.listview_meeting);
+        listView.setEmptyView(rootView.findViewById(R.id.emptyView_meeting));
 
-        String[] dummyData = new String[] { "Spotkanie z Damianem", "Spotkanie z Kasią", "Spotkanie z Marcinem",
-                 };
+        dummyDataList = new ArrayList<>();
+        adapter = new MainArrayAdapter(dummyDataList, getContext());
+        listView.setAdapter(adapter);
 
-       dummyDataList = new ArrayList<>(Arrays.asList(dummyData));
-       adapter = new MainArrayAdapter(dummyDataList, getContext());
-
-       listView.setAdapter(adapter);
-
-       return rootView;
+        return rootView;
     }
 
     public void addItem(String itemText){

@@ -31,11 +31,9 @@ public class ReminderListFragment extends MyFragment{
         View rootView = inflater.inflate(R.layout.fragment_reminder_list, container,
                 false);
         listView = (ListView) rootView.findViewById(R.id.listview_reminder);
+        listView.setEmptyView(rootView.findViewById(R.id.emptyView_reminder));
 
-        String[] dummyData = new String[] { "Odwiedź babcię", "Zrób pranie", "Wyślij maila do Anety",
-                "Przeczytaj 'Wojnę i Pokój'", "Zapłać ratę kredytu" };
-
-        dummyDataList = new ArrayList<>(Arrays.asList(dummyData));
+        dummyDataList = new ArrayList<>();
         adapter = new MainArrayAdapter(dummyDataList, getContext());
         listView.setAdapter(adapter);
 

@@ -33,18 +33,11 @@ public class ShoppingListFragment extends MyFragment{
         View rootView = inflater.inflate(R.layout.fragment_shopping_list, container,
                 false);
         listView = (ListView) rootView.findViewById(R.id.listview_shopping);
+        listView.setEmptyView(rootView.findViewById(R.id.emptyView_shopping));
 
-        String[] dummyData= new String[] { "Mleko", "Płatki", "Pieczywo",
-                "Jajka", "Pieczeń", "Pomidor", "Ogórek", "Makaron"};
-
-        dummyDataList = new ArrayList<>(Arrays.asList(dummyData));
-
+        dummyDataList = new ArrayList<>();
         adapter = new MainArrayAdapter(dummyDataList, getContext());
         listView.setAdapter(adapter);
-
-
-
-
 
         return rootView;
     }
