@@ -32,12 +32,12 @@ public class MeetingListFragment extends MyFragment{
         View rootView = inflater.inflate(R.layout.fragment_meeting_list, container,
                 false);
 
-        listView = (ListView) rootView.findViewById(R.id.listview_meeting);
+        /*listView = (ListView) rootView.findViewById(R.id.listview_meeting);
         listView.setEmptyView(rootView.findViewById(R.id.emptyView_meeting));
 
         dummyDataList = new ArrayList<>();
         adapter = new MainArrayAdapter(dummyDataList, getContext());
-        listView.setAdapter(adapter);
+        listView.setAdapter(adapter);*/
 
         return rootView;
     }

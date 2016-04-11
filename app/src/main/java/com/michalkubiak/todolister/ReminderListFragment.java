@@ -27,15 +27,16 @@ public class ReminderListFragment extends MyFragment{
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+                        Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_reminder_list, container,
                 false);
-        listView = (ListView) rootView.findViewById(R.id.listview_reminder);
+
+        /*listView = (ListView) rootView.findViewById(R.id.listview_reminder);
         listView.setEmptyView(rootView.findViewById(R.id.emptyView_reminder));
 
         dummyDataList = new ArrayList<>();
         adapter = new MainArrayAdapter(dummyDataList, getContext());
-        listView.setAdapter(adapter);
+        listView.setAdapter(adapter);//**/
 
         return rootView;
     }

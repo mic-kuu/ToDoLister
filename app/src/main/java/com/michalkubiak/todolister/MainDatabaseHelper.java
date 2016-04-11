@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import com.michalkubiak.todolister.Models.ShoppingItem;
+import com.michalkubiak.todolister.Models.ListItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -118,7 +118,7 @@ public class MainDatabaseHelper extends SQLiteOpenHelper {
         return lazyInstance;
     }
 
-    public void addShoppingItem(ShoppingItem shoppingItem) {
+    public void addShoppingItem(ListItem listItem) {
 
         SQLiteDatabase db = getWritableDatabase();
 
@@ -126,22 +126,54 @@ public class MainDatabaseHelper extends SQLiteOpenHelper {
         try {
 
             ContentValues values = new ContentValues();
-            values.put(KEY_SHOPPING_TEXT, shoppingItem.itemText);
-            values.put(KEY_SHOPPING_TIME_CREATED, shoppingItem.timeCreated);
-            values.put(KEY_SHOPPING_TIME_COMPLETED, shoppingItem.timeCompleted);
-            values.put(KEY_SHOPPING_IS_CHECKED, shoppingItem.isCheked);
+            values.put(KEY_SHOPPING_TEXT, listItem.itemText);
+            values.put(KEY_SHOPPING_TIME_CREATED, listItem.timeCreated);
+            values.put(KEY_SHOPPING_TIME_COMPLETED, listItem.timeCompleted);
+            values.put(KEY_SHOPPING_IS_CHECKED, listItem.isCheked);
 
             db.insertOrThrow(TABLE_SHOPPING, null, values);
             db.setTransactionSuccessful();
         } catch (Exception e) {
-            Log.d(TAG, "Error while trying to add shoppingItem to database");
+            Log.d(TAG, "Error while trying to add listItem to database");
         } finally {
             db.endTransaction();
         }
+
+
     }
 
-    public List<ShoppingItem> getAllShoppingItems() {
-        List<ShoppingItem> shoppingItems = new ArrayList<>();
+
+    public List<ListItem> getNewShoppingItems() {
+        List<ListItem> listItems = new ArrayList<>();
+
+
+        String POSTS_SELECT_QUERY =
+                String.format("SELECT * FROM %s WHERE %s = 0",
+                        TABLE_SHOPPING, KEY_SHOPPING_IS_CHECKED );
+
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery(POSTS_SELECT_QUERY, null);
+        try {
+            if (cursor.moveToFirst()) {
+                do {
+                    ListItem newListItem = new ListItem();
+                    newListItem.itemText = cursor.getString(cursor.getColumnIndex(KEY_SHOPPING_TEXT));
+                    listItems.add(newListItem);
+                } while(cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            Log.d(TAG, "Error while trying to get posts from database");
+        } finally {
+            if (cursor != null && !cursor.isClosed()) {
+                cursor.close();
+            }
+        }
+        return listItems;
+    }
+
+
+    public List<ListItem> getAllShoppingItems() {
+        List<ListItem> listItems = new ArrayList<>();
 
 
         String POSTS_SELECT_QUERY =
@@ -153,13 +185,13 @@ public class MainDatabaseHelper extends SQLiteOpenHelper {
         try {
             if (cursor.moveToFirst()) {
                 do {
-                    ShoppingItem newShoppingItem = new ShoppingItem();
-                    newShoppingItem.itemText = cursor.getString(cursor.getColumnIndex(KEY_SHOPPING_TEXT));
-                    newShoppingItem.timeCreated = cursor.getInt(cursor.getColumnIndex(KEY_SHOPPING_TIME_CREATED));
-                    newShoppingItem.timeCompleted = cursor.getInt(cursor.getColumnIndex(KEY_SHOPPING_TIME_COMPLETED));
-                    newShoppingItem.isCheked = cursor.getInt(cursor.getColumnIndex(KEY_SHOPPING_IS_CHECKED));
+                    ListItem newListItem = new ListItem();
+                    newListItem.itemText = cursor.getString(cursor.getColumnIndex(KEY_SHOPPING_TEXT));
+                    newListItem.timeCreated = cursor.getInt(cursor.getColumnIndex(KEY_SHOPPING_TIME_CREATED));
+                    newListItem.timeCompleted = cursor.getInt(cursor.getColumnIndex(KEY_SHOPPING_TIME_COMPLETED));
+                    newListItem.isCheked = cursor.getInt(cursor.getColumnIndex(KEY_SHOPPING_IS_CHECKED));
 
-                    shoppingItems.add(newShoppingItem);
+                    listItems.add(newListItem);
                 } while(cursor.moveToNext());
             }
         } catch (Exception e) {
@@ -169,6 +201,6 @@ public class MainDatabaseHelper extends SQLiteOpenHelper {
                 cursor.close();
             }
         }
-        return shoppingItems;
+        return listItems;
     }
 }

@@ -8,19 +8,23 @@ import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.ListAdapter;
 import android.widget.TextView;
+
+import com.michalkubiak.todolister.Models.ListItem;
+
 import java.util.ArrayList;
+import java.util.List;
 
 
 /**
  * Created by michal on 30.03.16.
  */
 public class MainArrayAdapter extends BaseAdapter implements ListAdapter {
-    private ArrayList<String> list = new ArrayList<>();
+    private List<ListItem> list = new ArrayList<>();
     private Context context;
 
 
 
-    public MainArrayAdapter(ArrayList<String> list, Context context) {
+    public MainArrayAdapter(List<ListItem> list, Context context) {
         this.list = list;
         this.context = context;
     }
@@ -53,7 +57,7 @@ public class MainArrayAdapter extends BaseAdapter implements ListAdapter {
         }
 
         TextView itemText = (TextView) view.findViewById(R.id.rowTextItem);
-        itemText.setText(list.get(position));
+        itemText.setText(list.get(position).itemText);
 
 
         CheckBox checkBox = (CheckBox) view.findViewById(R.id.rowCheckBox);
