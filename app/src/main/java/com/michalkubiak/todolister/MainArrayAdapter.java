@@ -21,6 +21,7 @@ import java.util.List;
 public class MainArrayAdapter extends BaseAdapter implements ListAdapter {
     private List<ListItem> list = new ArrayList<>();
     private Context context;
+    private MainDatabaseHelper databaseHelper;
 
 
 
@@ -67,6 +68,8 @@ public class MainArrayAdapter extends BaseAdapter implements ListAdapter {
             @Override
             public void onClick(View v) {
                 if (((CheckBox) v).isChecked()) {
+                    databaseHelper = MainDatabaseHelper.getInstance(context);
+                    databaseHelper.deleteShoppingItem(list.get(position).id);
 
                     list.remove(position);
                     notifyDataSetChanged();

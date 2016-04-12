@@ -158,6 +158,7 @@ public class MainDatabaseHelper extends SQLiteOpenHelper {
                 do {
                     ListItem newListItem = new ListItem();
                     newListItem.itemText = cursor.getString(cursor.getColumnIndex(KEY_SHOPPING_TEXT));
+                    newListItem.id =  cursor.getInt(cursor.getColumnIndex(KEY_SHOPPING_ID));
                     listItems.add(newListItem);
                 } while(cursor.moveToNext());
             }
@@ -169,6 +170,20 @@ public class MainDatabaseHelper extends SQLiteOpenHelper {
             }
         }
         return listItems;
+    }
+
+    public void deleteShoppingItem(int id) {
+        SQLiteDatabase db = getWritableDatabase();
+        db.beginTransaction();
+        try {
+            // Order of deletions is important when foreign key relationships exist.
+            db.delete(TABLE_SHOPPING, KEY_SHOPPING_ID + " = " + id, null);
+            db.setTransactionSuccessful();
+        } catch (Exception e) {
+            Log.d(TAG, "Error while trying to delete all posts and users");
+        } finally {
+            db.endTransaction();
+        }
     }
 
 

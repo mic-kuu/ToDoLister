@@ -8,5 +8,6 @@ public class ListItem {
     public int timeCreated;
     public int timeCompleted;
     public int isCheked;
+    public int id;
 }
 

@@ -47,8 +47,6 @@ public class ShoppingListFragment extends MyFragment{
         return rootView;
     }
 
-
-
     public void addItem(String itemText){
 
         Date date = new Date();
@@ -61,7 +59,6 @@ public class ShoppingListFragment extends MyFragment{
         databaseHelper.addShoppingItem(newListItem);
         listItems.clear();
         listItems.addAll(databaseHelper.getNewShoppingItems());
-
 
         adapter.notifyDataSetChanged();
 
