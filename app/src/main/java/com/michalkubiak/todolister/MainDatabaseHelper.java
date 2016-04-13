@@ -142,7 +142,6 @@ public class MainDatabaseHelper extends SQLiteOpenHelper {
 
     }
 
-
     public List<ListItem> getNewShoppingItems() {
         List<ListItem> listItems = new ArrayList<>();
 
@@ -186,14 +185,37 @@ public class MainDatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    public void addReminderItem(ListItem listItem) {
 
-    public List<ListItem> getAllShoppingItems() {
+        SQLiteDatabase db = getWritableDatabase();
+
+        db.beginTransaction();
+        try {
+
+            ContentValues values = new ContentValues();
+            values.put(KEY_REMINDER_TEXT, listItem.itemText);
+            values.put(KEY_REMINDER_TIME_CREATED, listItem.timeCreated);
+            values.put(KEY_REMINDER_TIME_COMPLETED, listItem.timeCompleted);
+            values.put(KEY_REMINDER_IS_CHECKED, listItem.isCheked);
+
+            db.insertOrThrow(TABLE_REMINDER, null, values);
+            db.setTransactionSuccessful();
+        } catch (Exception e) {
+            Log.d(TAG, "Error while trying to add listItem to database");
+        } finally {
+            db.endTransaction();
+        }
+
+
+    }
+
+    public List<ListItem> getNewReminderItems() {
         List<ListItem> listItems = new ArrayList<>();
 
 
         String POSTS_SELECT_QUERY =
-                String.format("SELECT * FROM %s",
-                        TABLE_SHOPPING);
+                String.format("SELECT * FROM %s WHERE %s = 0",
+                        TABLE_REMINDER, KEY_REMINDER_IS_CHECKED );
 
         SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = db.rawQuery(POSTS_SELECT_QUERY, null);
@@ -201,11 +223,8 @@ public class MainDatabaseHelper extends SQLiteOpenHelper {
             if (cursor.moveToFirst()) {
                 do {
                     ListItem newListItem = new ListItem();
-                    newListItem.itemText = cursor.getString(cursor.getColumnIndex(KEY_SHOPPING_TEXT));
-                    newListItem.timeCreated = cursor.getInt(cursor.getColumnIndex(KEY_SHOPPING_TIME_CREATED));
-                    newListItem.timeCompleted = cursor.getInt(cursor.getColumnIndex(KEY_SHOPPING_TIME_COMPLETED));
-                    newListItem.isCheked = cursor.getInt(cursor.getColumnIndex(KEY_SHOPPING_IS_CHECKED));
-
+                    newListItem.itemText = cursor.getString(cursor.getColumnIndex(KEY_REMINDER_TEXT));
+                    newListItem.id =  cursor.getInt(cursor.getColumnIndex(KEY_REMINDER_ID));
                     listItems.add(newListItem);
                 } while(cursor.moveToNext());
             }
@@ -218,4 +237,86 @@ public class MainDatabaseHelper extends SQLiteOpenHelper {
         }
         return listItems;
     }
+
+    public void deleteReminderItem(int id) {
+        SQLiteDatabase db = getWritableDatabase();
+        db.beginTransaction();
+        try {
+            // Order of deletions is important when foreign key relationships exist.
+            db.delete(TABLE_REMINDER, KEY_REMINDER_ID + " = " + id, null);
+            db.setTransactionSuccessful();
+        } catch (Exception e) {
+            Log.d(TAG, "Error while trying to delete all posts and users");
+        } finally {
+            db.endTransaction();
+        }
+    }
+
+    public void addMeetingItem(ListItem listItem) {
+
+        SQLiteDatabase db = getWritableDatabase();
+
+        db.beginTransaction();
+        try {
+
+            ContentValues values = new ContentValues();
+            values.put(KEY_MEETING_TEXT, listItem.itemText);
+            values.put(KEY_MEETING_TIME_CREATED, listItem.timeCreated);
+            values.put(KEY_MEETING_TIME_COMPLETED, listItem.timeCompleted);
+            values.put(KEY_MEETING_IS_CHECKED, listItem.isCheked);
+
+            db.insertOrThrow(TABLE_MEETING, null, values);
+            db.setTransactionSuccessful();
+        } catch (Exception e) {
+            Log.d(TAG, "Error while trying to add listItem to database");
+        } finally {
+            db.endTransaction();
+        }
+
+
+    }
+
+    public List<ListItem> getNewMeetingItems() {
+        List<ListItem> listItems = new ArrayList<>();
+
+
+        String POSTS_SELECT_QUERY =
+                String.format("SELECT * FROM %s WHERE %s = 0",
+                        TABLE_MEETING, KEY_MEETING_IS_CHECKED );
+
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery(POSTS_SELECT_QUERY, null);
+        try {
+            if (cursor.moveToFirst()) {
+                do {
+                    ListItem newListItem = new ListItem();
+                    newListItem.itemText = cursor.getString(cursor.getColumnIndex(KEY_MEETING_TEXT));
+                    newListItem.id =  cursor.getInt(cursor.getColumnIndex(KEY_MEETING_ID));
+                    listItems.add(newListItem);
+                } while(cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            Log.d(TAG, "Error while trying to get posts from database");
+        } finally {
+            if (cursor != null && !cursor.isClosed()) {
+                cursor.close();
+            }
+        }
+        return listItems;
+    }
+
+    public void deleteMeetingItem(int id) {
+        SQLiteDatabase db = getWritableDatabase();
+        db.beginTransaction();
+        try {
+            // Order of deletions is important when foreign key relationships exist.
+            db.delete(TABLE_MEETING, KEY_MEETING_ID + " = " + id, null);
+            db.setTransactionSuccessful();
+        } catch (Exception e) {
+            Log.d(TAG, "Error while trying to delete all posts and users");
+        } finally {
+            db.endTransaction();
+        }
+    }
+
 }

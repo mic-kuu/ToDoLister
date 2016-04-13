@@ -22,12 +22,19 @@ public class MainArrayAdapter extends BaseAdapter implements ListAdapter {
     private List<ListItem> list = new ArrayList<>();
     private Context context;
     private MainDatabaseHelper databaseHelper;
+    private int fragmentType;
+
+    public static final int SHOPPING = 0;
+    public static final int MEETING = 1;
+    public static final int REMINDER = 2;
 
 
 
-    public MainArrayAdapter(List<ListItem> list, Context context) {
+
+    public MainArrayAdapter(List<ListItem> list, Context context, int fragmentType) {
         this.list = list;
         this.context = context;
+        this.fragmentType = fragmentType;
     }
 
 
@@ -68,8 +75,19 @@ public class MainArrayAdapter extends BaseAdapter implements ListAdapter {
             @Override
             public void onClick(View v) {
                 if (((CheckBox) v).isChecked()) {
+
                     databaseHelper = MainDatabaseHelper.getInstance(context);
-                    databaseHelper.deleteShoppingItem(list.get(position).id);
+                    switch (fragmentType) {
+                        case SHOPPING:
+                            databaseHelper.deleteShoppingItem(list.get(position).id);
+                            break;
+                        case MEETING:
+                            databaseHelper.deleteMeetingItem(list.get(position).id);
+                            break;
+                        case REMINDER:
+                            databaseHelper.deleteReminderItem(list.get(position).id);
+                            break;
+                    }
 
                     list.remove(position);
                     notifyDataSetChanged();
@@ -77,9 +95,6 @@ public class MainArrayAdapter extends BaseAdapter implements ListAdapter {
                 }
             }
         });
-
-
-
         return view;
     }
 

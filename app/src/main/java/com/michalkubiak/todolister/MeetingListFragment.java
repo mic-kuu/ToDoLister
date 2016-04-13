@@ -6,15 +6,20 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.michalkubiak.todolister.Models.ListItem;
+
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
 
 
 public class MeetingListFragment extends MyFragment{
 
     private ListView listView;
     private MainArrayAdapter adapter;
-    private ArrayList<String> dummyDataList;
+    private List<ListItem> listItems;
+    private MainDatabaseHelper databaseHelper;
 
     public MeetingListFragment() {
         // Required empty public constructor
@@ -32,18 +37,31 @@ public class MeetingListFragment extends MyFragment{
         View rootView = inflater.inflate(R.layout.fragment_meeting_list, container,
                 false);
 
-        /*listView = (ListView) rootView.findViewById(R.id.listview_meeting);
+        listView = (ListView) rootView.findViewById(R.id.listview_meeting);
         listView.setEmptyView(rootView.findViewById(R.id.emptyView_meeting));
 
-        dummyDataList = new ArrayList<>();
-        adapter = new MainArrayAdapter(dummyDataList, getContext());
-        listView.setAdapter(adapter);*/
+        databaseHelper = MainDatabaseHelper.getInstance(getContext());
+        listItems = new ArrayList<>();
+        listItems = databaseHelper.getNewMeetingItems();
+
+        adapter = new MainArrayAdapter(listItems, getContext(), MainArrayAdapter.MEETING);
+        listView.setAdapter(adapter);
 
         return rootView;
     }
 
     public void addItem(String itemText){
-        dummyDataList.add(itemText);
+        Date date = new Date();
+        ListItem newListItem = new ListItem();
+        newListItem.itemText = itemText;
+        newListItem.isCheked = 0;
+        newListItem.timeCreated = (int) date.getTime();
+        newListItem.timeCompleted = 0;
+
+        databaseHelper.addMeetingItem(newListItem);
+        listItems.clear();
+        listItems.addAll(databaseHelper.getNewMeetingItems());
+
         adapter.notifyDataSetChanged();
     }
 }

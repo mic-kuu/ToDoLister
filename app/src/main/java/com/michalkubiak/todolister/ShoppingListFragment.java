@@ -15,8 +15,8 @@ import java.util.List;
 public class ShoppingListFragment extends MyFragment{
 
     private ListView listView;
-    private MainArrayAdapter adapter;    private List<ListItem> listItems;
-
+    private MainArrayAdapter adapter;
+    private List<ListItem> listItems;
     private MainDatabaseHelper databaseHelper;
 
     public ShoppingListFragment() {
@@ -41,7 +41,7 @@ public class ShoppingListFragment extends MyFragment{
         listItems = new ArrayList<>();
         listItems = databaseHelper.getNewShoppingItems();
 
-        adapter = new MainArrayAdapter(listItems, getContext());
+        adapter = new MainArrayAdapter(listItems, getContext(), MainArrayAdapter.SHOPPING);
         listView.setAdapter(adapter);
 
         return rootView;
