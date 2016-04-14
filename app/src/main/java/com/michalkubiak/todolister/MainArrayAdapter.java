@@ -1,6 +1,7 @@
 package com.michalkubiak.todolister;
 
 import android.content.Context;
+import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,7 +56,7 @@ public class MainArrayAdapter extends BaseAdapter implements ListAdapter {
     }
 
     @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, final ViewGroup parent) {
 
 
         View view = convertView;
@@ -77,15 +78,57 @@ public class MainArrayAdapter extends BaseAdapter implements ListAdapter {
                 if (((CheckBox) v).isChecked()) {
 
                     databaseHelper = MainDatabaseHelper.getInstance(context);
+                    final int item_id = list.get(position).id;
+                    Snackbar snackbar;
+
                     switch (fragmentType) {
                         case SHOPPING:
-                            databaseHelper.deleteShoppingItem(list.get(position).id);
+                            databaseHelper.updateShoppingItem(item_id, true);
+                            snackbar = Snackbar
+                                    .make(parent, context.getString(R.string.all_itemdeleted), Snackbar.LENGTH_LONG)
+                                    .setAction(context.getText(R.string.all_undo), new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            databaseHelper.updateShoppingItem(item_id, false);
+                                            ListItem restoredItem = databaseHelper.getShoppingItem(item_id);
+                                            list.add(position, restoredItem);
+                                            notifyDataSetChanged();
+                                        }
+                                    });
+
+                            snackbar.show();
                             break;
                         case MEETING:
-                            databaseHelper.deleteMeetingItem(list.get(position).id);
+                            databaseHelper.updateMeetingItem(item_id, true);
+                            snackbar = Snackbar
+                                    .make(parent, context.getString(R.string.all_itemdeleted), Snackbar.LENGTH_LONG)
+                                    .setAction(context.getText(R.string.all_undo), new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            databaseHelper.updateMeetingItem(item_id, false);
+                                            ListItem restoredItem = databaseHelper.getMeetingItem(item_id);
+                                            list.add(position, restoredItem);
+                                            notifyDataSetChanged();
+                                        }
+                                    });
+
+                            snackbar.show();
                             break;
                         case REMINDER:
-                            databaseHelper.deleteReminderItem(list.get(position).id);
+                            databaseHelper.updateReminderItem(item_id, true);
+                            snackbar = Snackbar
+                                    .make(parent, context.getString(R.string.all_itemdeleted), Snackbar.LENGTH_LONG)
+                                    .setAction(context.getText(R.string.all_undo), new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            databaseHelper.updateReminderItem(item_id, false);
+                                            ListItem restoredItem = databaseHelper.getReminderItem(item_id);
+                                            list.add(position, restoredItem);
+                                            notifyDataSetChanged();
+                                        }
+                                    });
+
+                            snackbar.show();
                             break;
                     }
 
