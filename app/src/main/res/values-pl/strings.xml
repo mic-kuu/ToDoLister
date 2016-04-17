@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">ToDoLister</string>
+
+    <!-- Tab names -->
+    <string name="tab_shop">zakupy</string>
+    <string name="tab_meeting">spotkania</string>
+    <string name="tab_reminders">terminy</string>
+
+    <string name="dialog_additemtitle">Dodaj element</string>
+    
+    <string name="all_emptylist">Nie ma elementów do wyświetlenia. Kliknij "+" żeby dodać element</string>
+    <string name="all_itemdeleted">Usunięto element z listy</string>
+
+    <string name="all_ok">OK</string>
+    <string name="all_cancel">Anuluj</string>
+    <string name="all_undo">Cofnij</string>
+
+</resources>
